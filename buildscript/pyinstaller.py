@@ -5,7 +5,7 @@ from datetime import timedelta
 import PyInstaller.__main__
 from PyInstaller.utils.hooks import collect_all, collect_submodules, collect_data_files
 
-from config import *
+import config
 
 
 def safe_collect_all(pkg):
@@ -33,11 +33,11 @@ def build(project_name, my_modules, packages=None, hidden_imports=None, metadata
     if my_modules is None:
         my_modules = []
     if packages is None:
-        packages = PYINSTALLER_PACKAGES
+        packages = config.PYINSTALLER_PACKAGES
     if hidden_imports is None:
         hidden_imports = []
     if metadata_packages is None:
-        metadata_packages = PYINSTALLER_METADATA_PACKAGES
+        metadata_packages = config.PYINSTALLER_METADATA_PACKAGES
 
     start_time = time.perf_counter()
 
@@ -45,7 +45,7 @@ def build(project_name, my_modules, packages=None, hidden_imports=None, metadata
     binaries = []
 
     # If you get the error module not found, you MUST add them manually
-    all_hidden_imports = PYINSTALLER_HIDDEN_IMPORTS + hidden_imports + my_modules
+    all_hidden_imports = (config.PYINSTALLER_HIDDEN_IMPORTS or []) + hidden_imports + my_modules
 
     for pkg in packages:
         d, b, h = safe_collect_all(pkg)
@@ -57,7 +57,7 @@ def build(project_name, my_modules, packages=None, hidden_imports=None, metadata
 
     # Build arguments
     args = [
-        "./src/rag/main.py",
+        config.ENTRY_POINT,
         "-D",
         f"-n={project_name}",
         "--clean",

@@ -3,7 +3,13 @@ import os, re
 
 # Configuration for the project
 PACKAGE_NAME = "rag"
-MY_MODULES = []
+VERSION = "0.1"
+ENTRY_POINT = "src/rag/main.py"
+
+CYTHON_DIRECTIVES = {
+    "language_level": "3",
+    "embedsignature": True,
+}
 
 FILE_DIR = os.path.dirname(__file__)
 BASE_DIR = os.path.abspath(os.path.dirname(FILE_DIR))
