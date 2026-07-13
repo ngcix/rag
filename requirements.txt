@@ -1,9 +1,0 @@
-# build packages
-cython>=3.0.0
-pyinstaller>=6.0.0
-setuptools>=65.0.0
-
-# Windows build
-#nuitka
-
-# my package

@@ -7,7 +7,7 @@ help:
 	@echo "  compile      - Compile Cython extensions in-place (development)"
 	@echo "  run          - Run the application"
 	@echo "  run-exec     - Run the bundled executable"
-	@echo "  build        - Full build: compile Cython + build wheel + pip install"
+	@echo "  build       - Full build: compile Cython + build wheel + pip install"
 	@echo "  build-only   - Build wheel only (no install)"
 	@echo "  build-exec   - Build and run PyInstaller executable"
 	@echo "  install      - Install built wheel via pip"
@@ -16,8 +16,9 @@ help:
 	@echo "  help         - Show this help message"
 
 setup-env:
-	python3 -m venv venv
-	./venv/bin/pip install -r requirements.txt
+	python3 -m venv .venv
+	./venv/bin/pip install --upgrade pip
+	./venv/bin/pip install .
 	./venv/bin/pip install pytest
 
 test:
