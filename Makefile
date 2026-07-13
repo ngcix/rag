@@ -1,26 +1,44 @@
-.PHONY: compile run build build-only install clean help
+.PHONY: setup-env test compile run run-exec build build-only build-exec install clean clean-src clean-all help
 
 help:
 	@echo "Available targets:"
-	@echo "  compile     - Compile Cython extensions in-place (development)"
-	@echo "  run         - Run the application"
-	@echo "  build       - Full build: compile Cython + build wheel + pip install"
-	@echo "  build-only  - Build wheel only (no install)"
-	@echo "  install     - Install built wheel via pip"
-	@echo "  clean       - Clean all build artifacts (build/, dist/, cython_build/)"
-	@echo "  clean-src   - Clean only compiled extensions (.c, .so, .pyd)"
-	@echo "  help        - Show this help message"
+	@echo "  setup-env    - Create virtual environment and install dependencies"
+	@echo "  test         - Run project tests"
+	@echo "  compile      - Compile Cython extensions in-place (development)"
+	@echo "  run          - Run the application"
+	@echo "  run-exec     - Run the bundled executable"
+	@echo "  build        - Full build: compile Cython + build wheel + pip install"
+	@echo "  build-only   - Build wheel only (no install)"
+	@echo "  build-exec   - Build and run PyInstaller executable"
+	@echo "  install      - Install built wheel via pip"
+	@echo "  clean        - Clean all build artifacts (build/, dist/, cython_build/)"
+	@echo "  clean-src    - Clean only compiled extensions (.c, .so, .pyd)"
+	@echo "  help         - Show this help message"
+
+setup-env:
+	python3 -m venv venv
+	./venv/bin/pip install -r requirements.txt
+	./venv/bin/pip install pytest
+
+test:
+	PYTHONPATH=src pytest tests/
 
 compile: clean-src
 	python setup.py build_ext --inplace
 
 run:
-	python src/rag/main.py
+	PYTHONPATH=src python -m rag.main
+
+run-exec:
+	./dist/rag/rag
 
 build: build-only install
 
 build-only: clean-all
 	python buildscript/main.py -c
+
+build-exec:
+	python buildscript/main.py -c -i
 
 install:
 	python buildscript/main.py -w
@@ -28,7 +46,7 @@ install:
 clean: clean-all
 
 clean-src:
-	python -c "import shutil, glob; [shutil.rmtree(f, ignore_errors=True) for f in glob.glob('src/**/*.c', recursive=True)]; [shutil.rmtree(f, ignore_errors=True) for f in glob.glob('src/**/*.so', recursive=True)]; [shutil.rmtree(f, ignore_errors=True) for f in glob.glob('src/**/*.pyd', recursive=True)]"
+	python buildscript/main.py -clean-src
 
 clean-all:
-	python -c "import shutil; shutil.rmtree('build', ignore_errors=True); shutil.rmtree('dist', ignore_errors=True); shutil.rmtree('cython_build', ignore_errors=True)"
+	python buildscript/main.py -clean-all

@@ -1,3 +1,7 @@
+# Project
+.python-version
+*.egg-info/
+
 # Python
 __pycache__/
 *.py[cod]
@@ -5,7 +9,6 @@ __pycache__/
 *.so
 *.pyd
 *.c
-.python-version
 
 # Cython build output
 build/

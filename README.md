@@ -43,7 +43,7 @@ make install      # Install wheel via pip
 
 ```bash
 # Build with PyInstaller after Cython compile
-python buildscript/main.py -c -i
+
 ```
 
 ### Clean

@@ -1,5 +1,5 @@
 import datetime
-from .config import DebugLevel, getConfig
+from rag.utils.config import DebugLevel, getConfig
 
 CONFIG = getConfig()
 
