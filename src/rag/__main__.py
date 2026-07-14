@@ -1,3 +1,3 @@
-from rag.utils.logcat import Log
+from rag.utils import Log
 
-Log.i("MAIN", "Hello")
+Log.i("MAIN", "Hello xx")

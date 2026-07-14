@@ -7,11 +7,11 @@ help:
 	@echo "  compile      - Compile Cython extensions in-place (development)"
 	@echo "  run          - Run the application"
 	@echo "  run-exec     - Run the bundled executable"
-	@echo "  build        - Full build: compile Cython + build wheel + pip install"
-	@echo "  build-only   - Build wheel only (no install)"
+	@echo "  build        - Full build: build wheel + pip install"
+	@echo "  build-only   - Build wheel only (standard)"
 	@echo "  build-exec   - Build and run PyInstaller executable"
 	@echo "  install      - Install built wheel via pip"
-	@echo "  clean        - Nuclear clean: remove everything, uninstall package"
+	@echo "  clean        - Nuclear clean: remove everything"
 	@echo "  clean-exec   - Light clean: remove only build output and dist"
 	@echo "  clean-src    - Clean only compiled extensions (.c, .so, .pyd)"
 	@echo "  help         - Show this help message"
@@ -23,7 +23,7 @@ setup-env:
 	./.venv/bin/pip install pytest
 
 test:
-	PYTHONPATH=src pytest tests/
+	PYTHONPATH=src ./.venv/bin/pytest tests/
 
 compile: clean-src
 	python setup.py build_ext --inplace
@@ -37,19 +37,24 @@ run-exec:
 build: build-only install
 
 build-only: clean
-	python buildscript/main.py -c
+	python -m build
 
 build-exec:
-	python buildscript/main.py -c -i
+	pyinstaller rag.spec
 
 install:
-	python buildscript/main.py -w
+	./.venv/bin/pip install dist/*.whl
 
 clean:
-	python buildscript/main.py -clean-all
+	rm -rf build/ dist/ *.egg-info
+	find src -name "__pycache__" -type d -exec rm -rf {} +
+	find src -name "*.egg-info" -type d -exec rm -rf {} +
 
 clean-exec:
-	python buildscript/main.py -clean-exec
+	rm -rf build/ dist/
 
 clean-src:
-	python buildscript/main.py -clean-src
+	find src -name "*.c" -type f -delete
+	find src -name "*.so" -type f -delete
+	find src -name "*.pyd" -type f -delete
+	find src -name "__pycache__" -type d -exec rm -rf {} +
