@@ -1,3 +1,5 @@
-from rag.utils import Log
+from rag.cli import main
 
-Log.i("MAIN", "Hello xx")
+
+if __name__ == "__main__":
+    main()
