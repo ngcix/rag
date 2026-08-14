@@ -29,10 +29,10 @@ compile: clean-src
 	python setup.py build_ext --inplace
 
 run:
-	PYTHONPATH=src python -m rag
+	PYTHONPATH=src python -m rag $(ARGS)
 
 run-exec:
-	./dist/rag/rag
+	./dist/rag/rag $(ARGS)
 
 build: build-only install
 
