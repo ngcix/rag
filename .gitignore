@@ -16,7 +16,7 @@ cython_build/
 
 # PyInstaller output
 dist/
-*.spec
+# *.spec need keep this
 
 # Virtual environment
 .venv/
