@@ -25,7 +25,7 @@ def download_model(model_id: str, local_dir: str):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Tự động tải mô hình cho Hugging Face TEI")
-    parser.add_argument("--model", type=str, default="BAAI/bge-m3", help="Hugging Face Model ID (Ví dụ: BAAI/bge-m3)")
+    parser.add_argument("--model", type=str, default="Qwen/Qwen3-Embedding-0.6B", help="Hugging Face Model ID (Ví dụ: BAAI/bge-m3)")
     parser.add_argument("--output", type=str, default="./data/models/", help="Thư mục lưu trữ cục bộ")
     
     args = parser.parse_args()

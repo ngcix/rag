@@ -1,19 +1,24 @@
 services:
   embedding:
-    image: rag-embed
-
-    environment:
-      - MODEL_ID=/data/bge-m3  # Chỉ đường dẫn đến thư mục chứa model bên trong container
-      - PORT=80
-      - MAX_CLIENT_BATCH_SIZE=64
-      - MAX_BATCH_TOKENS=16384
+    image: rag-embed:latest
+    command:
+      - --model-id
+      - /data/models
+      - --pooling
+      - last-token             # 🌟 Đã sửa từ 'cls' sang 'last-token'
+      - --max-client-batch-size
+      - "32"
+      - --max-batch-tokens     # 🌟 Bổ sung để kiểm soát tải bộ nhớ trên CPU
+      - "16384"
+      - --auto-truncate
+      - --port
+      - "80"
     volumes:
-      - ./data/models/bge-m3:/data/bge-m3  # Mount thư mục model đã tải từ máy host vào container
+      - ./data:/data
     ports:
-      - "80:80"
+      - "21000:80"
     restart: unless-stopped
 
-    
   rag:
     image: rag-main
 
