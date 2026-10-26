@@ -52,8 +52,8 @@ def convert_model_to_onnx(model_id: str, output_dir: str, quantize_int8: bool = 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Convert Hugging Face Embedding Model to ONNX")
-    parser.add_argument("--model", type=str, default="Qwen/Qwen3-Embedding-0.6B", help="Hugging Face Model ID")
-    parser.add_argument("--output", type=str, default="./models/qwen3-onnx", help="Thư mục đầu ra")
+    parser.add_argument("--model", type=str, default="./data/models/Qwen3-Embedding-0.6B", help="Hugging Face Model ID")
+    parser.add_argument("--output", type=str, default="./data/models/qwen3-onnx", help="Thư mục đầu ra")
     parser.add_argument("--quantize", action="store_true", help="Kích hoạt lượng tử hóa INT8 (Tối ưu cho CPU)")
     
     args = parser.parse_args()

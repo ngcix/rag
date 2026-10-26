@@ -6,6 +6,7 @@
 
 
 # Download embedding model
+python embedding/model_download.py --model Qwen/Qwen3-Embedding-8B --output ./data/models/Qwen3-Embedding-8B
 
 
 # Changing model
@@ -64,6 +65,13 @@ Khi bạn chạy trên môi trường CPU:
 python convert_to_onnx.py --model Qwen/Qwen3-Embedding-0.6B --output ./models/qwen3-onnx
 
 python convert_to_onnx.py --model Qwen/Qwen3-Embedding-0.6B --output ./models/qwen3-onnx-int8 --quantize
+
+
+# Convert sang ONNX tiêu chuẩn
+optimum-cli export onnx --model Qwen/Qwen3-Embedding-0.6B --task feature-extraction ./models/qwen3-onnx
+
+# Hoặc convert và tối ưu hóa ở mức cao nhất O3 cho CPU Intel/AMD
+optimum-cli export onnx --model Qwen/Qwen3-Embedding-0.6B --task feature-extraction --optimize O3 ./models/qwen3-onnx-opt
 
 
 

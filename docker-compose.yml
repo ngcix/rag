@@ -3,7 +3,7 @@ services:
     image: rag-embed:latest
     command:
       - --model-id
-      - /data/models
+      - /data/models/Qwen3-Embedding-4B
       - --pooling
       - last-token             # 🌟 Đã sửa từ 'cls' sang 'last-token'
       - --max-client-batch-size
@@ -13,6 +13,13 @@ services:
       - --auto-truncate
       - --port
       - "80"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
     volumes:
       - ./data:/data
     ports:
